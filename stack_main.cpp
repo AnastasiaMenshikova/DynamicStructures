@@ -166,7 +166,52 @@ int main()
 				break;
 			}
 			
-			//case 5:
+			case 5:
+			{
+				system("cls");
+				error = 1;
+				if (a.IsEmpty())
+				{
+					system("cls");
+					cout << "Невозможно удалить элемент, стек пуст. Добавьте элементы в стек." << endl;
+					system("pause");
+				}
+				else
+				{
+					cout << "Введите элемент для поиска:" << endl;
+					if ((cin >> data) && (cin.good()))
+					{
+						if (a.Search(data) == false)
+						{
+							cout << "Элемент не был найден." << endl;
+						}
+						else
+						{
+							cout << "Элемент " << data << " находится в стеке." << endl;
+						}
+
+					}
+					else
+					{
+						if (error == 1)
+						{
+							error = 0;
+							cout << "\n Некорректное значение. Введите число:" << endl;
+							system("pause");
+						}
+
+						cin.clear();
+						cin.ignore();
+						system("cls");
+					}
+
+
+
+					system("pause");
+				}
+				system("cls");
+				break;
+			}
 			
 
 			case 6:
