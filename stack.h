@@ -1,11 +1,26 @@
-struct node
+class Stack
 {
-	int value;     // информационное поле
-	node *prev;    // указатель на предыдущий элемент
-};
+	struct node
+	{
+		int value;
+		node *next;
+	};
 
-node* first(int value); // функция вставки первого элемента в стек 
-void print(node **top);   //печать стека
-void push(node **top, int value);   // занесение в стек  
-void pop(node**top);             // удаление из стека
-void menu();   // интерфейс стека
+	node *top;
+
+public:
+	Stack();
+	~Stack();
+
+	void push(int);
+	int pop();
+	bool Search(int key);
+	void Del();
+	void RandPush(int amount, int range);
+	void Clear();
+	typedef node* iterater;
+	iterater getTop();
+	iterater getNext(iterater a);
+	int getInf(iterater a);
+	bool IsEmpty();
+};
