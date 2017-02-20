@@ -166,50 +166,8 @@ int main()
 				break;
 			}
 			
-			case 5:
-			{
-				system("cls");
-				for (;;)
-				{
-					cout << "Введите количество элементов:" << endl;
-					if ((cin >> amount) && (cin.good())){}
-					else
-					{
-						if (error == 1)
-						{
-							error = 0;
-							cout << "\n Некорректное значение. Введите число:" << endl;
-							system("pause");
-						}
-						cin.clear();
-						cin.ignore();
-						system("cls");
-						continue;
-					}
-
-					cout << "Введите максимальное значение:" << endl;
-					if ((amount > 0) && (cin >> range) && (cin.good()))
-					{
-						a.RandPush(amount, range);
-						system("cls");
-						break;
-					}
-					else
-					{
-						if (error == 1)
-						{
-							error = 0;
-							cout << "\n Некорректное значение. Введите число:" << endl;
-							system("pause");
-						}
-						cin.clear();
-						cin.ignore();
-					}
-					system("cls");
-				}
-				system("cls");
-				break;
-			}
+			//case 5:
+			
 
 			case 6:
 			{
