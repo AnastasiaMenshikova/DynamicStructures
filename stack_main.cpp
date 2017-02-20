@@ -173,7 +173,7 @@ int main()
 				if (a.IsEmpty())
 				{
 					system("cls");
-					cout << "Невозможно удалить элемент, стек пуст. Добавьте элементы в стек." << endl;
+					cout << "Стек пуст. Добавьте элементы для поиска." << endl;
 					system("pause");
 				}
 				else
@@ -204,9 +204,6 @@ int main()
 						cin.ignore();
 						system("cls");
 					}
-
-
-
 					system("pause");
 				}
 				system("cls");
