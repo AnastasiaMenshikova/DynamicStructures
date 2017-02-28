@@ -1,138 +1,119 @@
+#include "stdafx.h"
 #include "queue.h"
 #include <iostream>
-#include <clocale>
-#include <ctype.h>
-#include <cstring>
+#include <time.h>
 
 using namespace std;
-Node *First(int value)
+
+queue::queue()
 {
-	Node *pv = new Node; //выделяем место в ячейке памяти под указатель на первый элемент очереди
-	pv->value = val; // записываем значение в информационное поле
-	pv-> next = NULL; // зануляем указатель на следующий элемент
-	return pv; // возвращаем адрес первого элемента структуры
+	pbeg = NULL;
+	pend = NULL;
 }
 
-void add(Node **pend, int value)
+queue::~queue()
 {
-	Node *pv = new Node; //выделяем место в ячейке памяти под указатель на новый элемент очереди
-	pv->value = value; // записываем значение в информационное поле
-	pv-> next = NULL; 
-	(*pend)-> next = pv;
-	*pend = pv;
+	Clear();
 }
-void print(Node **pbeg)
-{
-	Node *tmp = (*pbeg)->next; //выделяем место в ячейке памяти под указатель и присваиваем ему указатель на второй элемент очереди
 
-	printf("%d ", (*pbeg)->value);// печатаем первый элемент очереди
-	while (tmp != NULL)//пока указатель на последующий элемент не равен нулю
+void queue::push(int a)		// Функция добавления элемента в конец очереди
+{
+	node* pv = new node();	//выделяем место в ячейке памяти 
+	pv->value = a;			//записываем значение в информационное поле
+	pv->next = pend;		//меняем указатель вершины
+	pend = pv;				//определение новой вершины
+}
+
+int queue::pop()			// Функция удаления элемента из начала очереди, возвращает целочисленное значение
+{
+	node* pv = new node();	//выделяем место в ячейке памяти 
+	pv = pbeg;				//присваиваем pv указатель на вершину стека
+	if (queue::IsEmpty())	//Если стек пуст
 	{
-		printf("%d ", tmp->value); //печатаем значение следующий элемент
-		tmp = tmp->next; //переприсваем указатель на указатель следующего элемента
+		return NULL;		//возвращаем 0, т.к. нечего удалять
 	}
-	cout << endl;
+	else
+	{
+		int a;				//в переменную запишем значение удаленного элемента из вершины стека
+		a = pv->value;
+		pv = pbeg;			//
+		pbeg = pv->next;		//меняем указатель на вершину стека
+		delete pv;			//удаляем элемент из стека
+		return a;			//возвращаем значение удалённого элемента стека
+	}
 }
-bool isEmpty(Node *pbeg) //сходная проверка с проверкой на пустоту в стеке
+
+bool queue::Search(int key)	//Функция поиска элемента из стека по ключу
+{
+	node *pv = new node();	//выделяем место в ячейке памяти 
+	pv = pbeg;				//присваиваем pv указатель на начало очереди
+	while (pv)				// проходим по стеку пока вершина не ноль
+	{
+		if (pv->value == key)//если значение совпадает с ключом, возвращаем true, иначе false
+		{
+			return true;
+		}
+		pv = pv->next;		//меняем указатель, тем самым проходим по очереди
+	}
+	return false;
+}
+
+void queue::Del()
+{
+	node* pv = new node();	//выделяем место в ячейке памяти 
+	pv = pbeg;				//присваиваем pv указатель на вершину стека
+	pbeg = pv->next;		//меняем указатель начала очереди
+	delete pv;				//удаляем элемент
+}
+
+void queue::RandPush(int amount, int range)
+{
+	int random, i = 0;
+	node* elem = new node();
+	srand(time(NULL));
+	while (i != amount)
+	{
+		random = rand() % range;
+		push(random);
+		i++;
+	}
+}
+
+void queue::Clear()	//Функция очистки стека
+{
+	while (pbeg)		// пока указатель на начало очереди не ноль 
+	{
+		Del();		//удаляем элементы из стека
+	}
+}
+
+queue::iterater queue::getBegin()	//Возвращает указатель на начало очереди
+{
+	return pbeg;
+}
+
+queue::iterater queue::getNext(iterater a)	//Возвращает указатель на следующий элемент
+{
+	if (queue::IsEmpty())
+	{
+		return NULL;
+	}
+	return a->next;
+}
+
+int queue::getInf(iterater a)	//Возвращает значение элемента стека или 0, если стек пуст
+{
+	if (queue::IsEmpty())
+	{
+		return NULL;
+	}
+	return a->value;
+}
+
+bool queue::IsEmpty()	//сходная проверка с проверкой на пустоту в стеке
 {
 	if (pbeg == NULL)
 		return false;
 	else
 		return true;
-}
-void menu()
-{
-	setlocale(LC_ALL, "Russian");
-
-	Node *pbeg = NULL;
-	Node *pend = NULL;
-	{
-
-		char t;
-		int first_el;
-		int el = 0;
-		do
-		{
-			cout << "***QUEUE***" << endl << endl;
-			cout << "1. Добавить первый элемент в очередь\n";
-			cout << "2. Добавить новый элемент в очередь\n";
-			cout << "3. Удалить первый элемент из очереди\n";
-			cout << "4. Распечатать элемент(ы) очереди\n\n";
-			cout << "Выберите число и нажмите ENTER\n";
-			cin >> t;
-			isdigit(t);
-			int c;
-			c = t - '0';
-			if (c >= 0 && c < 5)
-			{
-
-				switch (c)
-				{
-				case 1:
-					if (pbeg == NULL)
-					{
-						cout << "Создайте первый элемент\n\n";
-						cin >> first_el;
-
-						pbeg = First(first_el);
-						pend = pbeg;
-					}
-					else
-					{
-						cout << "Ошибка! Первый элемент существует!\n\n";
-						system("pause");
-					}
-					system("CLS");
-					break;
-
-				case 2:
-					if (pbeg != NULL) {
-						cout << "Напишите новый элемент\n\n";
-						cin >> el;
-						add(&pend, el);
-					}
-					else {
-						cout << "Ошибка! Нужно добавить первый элемент!\n\n";
-						system("pause");
-					}
-					system("CLS");
-					break;
-				case 3:
-					if (pbeg != NULL) {
-						del(&pbeg);
-						cout << "Элемент был удален из очереди\n\n";
-					}
-					else {
-						cout << endl;
-						cout << "Ошибка! Очередь пуста!\n\n";
-					}
-					system("pause");
-					cout << endl;
-					system("cls");
-					break;
-				case 4:
-					cout << "Распечатаная очередь\n\n";
-					print(&pbeg);
-					cout << endl;
-					system("pause");
-					cout << endl;
-					system("cls");
-					break;
-				}
-			}
-			else
-			{
-				cout << endl;
-				cout << "Неверное значение! Введиите число от 1 до 4" << endl << endl;
-				system("pause");
-				cout << endl;
-				system("cls");
-
-
-			}
-		} while (1);
-
-
-	}
-
 }
