@@ -1,13 +1,27 @@
-struct Node
+class queue
 {
-	int value; //информационное поле
-	Node *next; //указатель на следующий элемент; 
+	struct node
+	{
+		int value;
+		node *next;
+	};
+
+	node *pbeg;
+	node *pend;
+
+public:
+	queue();
+	~queue();
+
+	void push(int);
+	int pop();
+	bool Search(int key);
+	void Del();
+	void RandPush(int amount, int range);
+	void Clear();
+	typedef node* iterater;
+	iterater getBegin();
+	iterater getNext(iterater a);
+	int getInf(iterater a);
+	bool IsEmpty();
 };
-
-
-Node *First(int value); // создание первого элемента в очереди
-void add(Node **pend, int value); // добавление элемента в очередь
-void del(Node **pbeg); // удаление элемента из очереди
-void print(Node **pbeg); // печать элементов очереди
-bool isEmpty(Node *pbeg); // проверка очереди на пустоту
-void menu(); // интерфейс очереди
