@@ -20,15 +20,25 @@ void queue::push(int a)		// Функция добавления элемента
 {
 	node* pv = new node();	//выделяем место в ячейке памяти 
 	pv->value = a;			//записываем значение в информационное поле
-	pv->next = pend;		//меняем указатель вершины
-	pend = pv;				//определение новой вершины
+	if (queue::IsEmpty() == NULL)
+	{
+		pbeg = pv;
+		pend = pv;
+	}
+	else
+	{
+		pv->next = pend;		//меняем указатель вершины
+		pend = pv;				//определение новой вершины
+	}
+
 }
 
 int queue::pop()			// Функция удаления элемента из начала очереди, возвращает целочисленное значение
 {
 	node* pv = new node();	//выделяем место в ячейке памяти 
 	pv = pbeg;				//присваиваем pv указатель на вершину стека
-	if (queue::IsEmpty())	//Если стек пуст
+
+	if (queue::IsEmpty() == NULL)	//Если очередь пуста
 	{
 		return NULL;		//возвращаем 0, т.к. нечего удалять
 	}
@@ -36,10 +46,19 @@ int queue::pop()			// Функция удаления элемента из на
 	{
 		int a;				//в переменную запишем значение удаленного элемента из вершины стека
 		a = pv->value;
-		pv = pbeg;			//
-		pbeg = pv->next;		//меняем указатель на вершину стека
-		delete pv;			//удаляем элемент из стека
-		return a;			//возвращаем значение удалённого элемента стека
+		if (pv != pend)
+		{
+			pbeg = pv->next;		//меняем указатель на вершину стека
+			delete pv;				//удаляем элемент из стека
+			return a;				//возвращаем значение удалённого элемента стека
+		}
+		else
+		{
+			pend = NULL;
+			pbeg = pend;
+			delete pv;
+			return a;
+		}
 	}
 }
 
@@ -58,14 +77,6 @@ bool queue::Search(int key)	//Функция поиска элемента из 
 	return false;
 }
 
-void queue::Del()
-{
-	node* pv = new node();	//выделяем место в ячейке памяти 
-	pv = pbeg;				//присваиваем pv указатель на вершину стека
-	pbeg = pv->next;		//меняем указатель начала очереди
-	delete pv;				//удаляем элемент
-}
-
 void queue::RandPush(int amount, int range)
 {
 	int random, i = 0;
@@ -81,9 +92,13 @@ void queue::RandPush(int amount, int range)
 
 void queue::Clear()	//Функция очистки стека
 {
+	node* pv = new node();
+	pv = pbeg;
 	while (pbeg)		// пока указатель на начало очереди не ноль 
 	{
-		Del();		//удаляем элементы из стека
+		pbeg = pv->next;		//меняем указатель начала очереди
+		delete pv;				//удаляем элемент
+		pv = pbeg;
 	}
 }
 
