@@ -1,26 +1,25 @@
 #include "stdafx.h"
-#include "stack.h"
+#include "queue.h"
 #include <iostream>
-#include <time.h>
 
 using namespace std;
 
 int main()
 {
 	int mn, data, range, amount, error; // data - информационное поле
-	Stack a;
-	Stack::iterater iter;
+	queue a;
+	queue::iterater iter;
 
 	setlocale(LC_ALL, "Russian");
 	do
 	{
 		cout << "Выберите пункт меню:" << endl;
-		cout << "1)Добавить один элемент в стек" << endl;
-		cout << "2)Заполнить стек рандомными значениями" << endl;
-		cout << "3)Удалить элемент из стека" << endl;
-		cout << "4)Очистить стек" << endl;
-		cout << "5)Поиск элемента в стеке по значению" << endl;
-		cout << "6)Просмотр элементов стека" << endl;
+		cout << "1)Добавить один элемент в конец очереди" << endl;
+		cout << "2)Заполнить очередь рандомными значениями" << endl;
+		cout << "3)Удалить элемент из начала очереди" << endl;
+		cout << "4)Очистить очередь" << endl;
+		cout << "5)Поиск элемента в очереди по значению" << endl;
+		cout << "6)Просмотр элементов очереди" << endl;
 		cout << "Нажмите 0 для выхода из программы" << endl;
 		cin >> mn;
 
@@ -42,7 +41,7 @@ int main()
 			error = 1;
 			for (;;)
 			{
-				cout << "Введите одно значение для добавления в стек:" << endl;
+				cout << "Введите одно значение для добавления в очередь:" << endl;
 				if ((cin >> data) && (cin.good()))
 				{
 					break;
@@ -123,16 +122,16 @@ int main()
 		{
 
 			system("cls");
-			if (a.IsEmpty())
+			if (a.IsEmpty() == NULL)
 			{
 				system("cls");
-				cout << "Невозможно удалить элемент, стек пуст. Добавьте элементы в стек." << endl;
+				cout << "Невозможно удалить элемент, очередь пуста. Добавьте элементы." << endl;
 				system("pause");
 			}
 			else
 			{
-				a.Del();
-				cout << "Элемент был успешно удален." << endl;
+				int p = a.pop();
+				cout << "Элемент" << p << "был успешно удален" << endl;
 				system("pause");
 			}
 			system("cls");
@@ -142,7 +141,7 @@ int main()
 		case 4:
 		{
 			system("cls");
-			if (a.IsEmpty())
+			if (a.IsEmpty() == NULL)
 			{
 				cout << "Элементов нет." << endl;
 				system("pause");
@@ -150,7 +149,7 @@ int main()
 			else
 			{
 				a.Clear();
-				cout << "Стек был успешно очищен." << endl;
+				cout << "Очередь была успешно очищена." << endl;
 				system("pause");
 			}
 			system("cls");
@@ -161,10 +160,10 @@ int main()
 		{
 			system("cls");
 			error = 1;
-			if (a.IsEmpty())
+			if (a.IsEmpty() == NULL)
 			{
 				system("cls");
-				cout << "Стек пуст. Добавьте элементы для поиска." << endl;
+				cout << "Очередь пуста. Добавьте элементы для поиска." << endl;
 				system("pause");
 			}
 			else
@@ -178,7 +177,7 @@ int main()
 					}
 					else
 					{
-						cout << "Элемент " << data << " находится в стеке." << endl;
+						cout << "Элемент " << data << " находится в очереди." << endl;
 					}
 
 				}
@@ -205,15 +204,15 @@ int main()
 		case 6:
 		{
 			system("cls");
-			iter = a.getTop();
-			if (a.IsEmpty())
+			iter = a.getBegin();
+			if (a.IsEmpty() == NULL)
 			{
-				cout << "В стеке нет элементов." << endl;
+				cout << "В очереди нет элементов." << endl;
 				system("pause");
 			}
 			else
 			{
-				cout << "Элементы стека:" << endl;
+				cout << "Элементы очереди:" << endl;
 				while (iter)
 				{
 					cout << a.getInf(iter) << ' ';
