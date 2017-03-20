@@ -2,12 +2,12 @@ class queue
 {
 	struct node
 	{
-		int value;
+		int value; 
 		node *next;
 	};
 
-	node *pbeg;
-	node *pend;
+	node *pbeg;	//указатель на начало очереди
+	node *pend;	//указатель на конец очереди
 
 public:
 	queue();
@@ -16,7 +16,6 @@ public:
 	void push(int);
 	int pop();
 	bool Search(int key);
-	void Del();
 	void RandPush(int amount, int range);
 	void Clear();
 	typedef node* iterater;
