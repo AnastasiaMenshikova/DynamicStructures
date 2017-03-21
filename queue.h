@@ -20,6 +20,7 @@ public:
 	void Clear();
 	typedef node* iterater;
 	iterater getBegin();
+	iterator getEnd();
 	iterater getNext(iterater a);
 	int getInf(iterater a);
 	bool IsEmpty();
