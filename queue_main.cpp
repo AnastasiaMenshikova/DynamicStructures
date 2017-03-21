@@ -122,7 +122,7 @@ int main()
 		{
 
 			system("cls");
-			if (a.IsEmpty())
+			if (a.IsEmpty() == NULL)
 			{
 				system("cls");
 				cout << "Невозможно удалить элемент, очередь пуста. Добавьте элементы." << endl;
@@ -130,8 +130,8 @@ int main()
 			}
 			else
 			{
-				a.Del();
-				cout << "Элемент был успешно удален." << endl;
+				int p = a.pop();
+				cout << "Элемент" << p << "был успешно удален" << endl;
 				system("pause");
 			}
 			system("cls");
@@ -141,7 +141,7 @@ int main()
 		case 4:
 		{
 			system("cls");
-			if (a.IsEmpty())
+			if (a.IsEmpty() == NULL)
 			{
 				cout << "Элементов нет." << endl;
 				system("pause");
@@ -160,7 +160,7 @@ int main()
 		{
 			system("cls");
 			error = 1;
-			if (a.IsEmpty())
+			if (a.IsEmpty() == NULL)
 			{
 				system("cls");
 				cout << "Очередь пуста. Добавьте элементы для поиска." << endl;
@@ -205,7 +205,7 @@ int main()
 		{
 			system("cls");
 			iter = a.getBegin();
-			if (a.IsEmpty())
+			if (a.IsEmpty() == NULL)
 			{
 				cout << "В очереди нет элементов." << endl;
 				system("pause");
