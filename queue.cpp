@@ -1,14 +1,14 @@
-#include "stdafx.h"
-#include "queue.h"
-#include <iostream>
-#include <time.h>
+#include "stdafx.h" 
+#include "queue.h" 
+#include <ctime> 
+#include <cstdlib> 
 
 using namespace std;
 
 queue::queue()
 {
-	pbeg = NULL;
-	pend = NULL;
+	head = NULL;
+	tail = NULL;
 }
 
 queue::~queue()
@@ -17,69 +17,67 @@ queue::~queue()
 }
 
 void queue::push(int a)		// Функция добавления элемента в конец очереди
-{
-	node* pv = new node();	//выделяем место в ячейке памяти 
+{ 
+	node *pv = new node;	//выделяем место в ячейке памяти 
 	pv->value = a;			//записываем значение в информационное поле
-	if (queue::IsEmpty() == NULL)
+	pv->next = NULL;		
+	if (queue::IsEmpty())	//если очередь пуста
 	{
-		pbeg = pv;
-		pend = pv;
+		tail = head = pv;	//первый элемент будет и началом, и концом
 	}
-	else
+	else  //если в очереди есть хотя бы один элемент
 	{
-		pv->next = pend;		//меняем указатель вершины
-		pend = pv;				//определение новой вершины
+		tail->next = pv;
+		tail = pv;
 	}
-
 }
 
-int queue::pop()			// Функция удаления элемента из начала очереди, возвращает целочисленное значение
+int queue::pop()			// Функция удаления элемента из вершины стека, возвращает целочисленное значение
 {
-	node* pv = new node();	//выделяем место в ячейке памяти 
-	pv = pbeg;				//присваиваем pv указатель на вершину очереди
-	if (queue::IsEmpty() == NULL)	//Если очередь пуста
+	node* pv = new node();	//выделяем место в ячейке памяти
+	pv = head;
+	if (queue::IsEmpty())	//если очередь пуста, возвращаем NULL
 	{
-		return NULL;		//возвращаем 0, т.к. нечего удалять
+		return NULL;
 	}
 	else
 	{
-		int a;				// !!в переменную запишем значение удаленного элемента из начала очереди
+		int a;	// в переменную запишем значение удалённого элемента
 		a = pv->value;
-		if (pv != pend)
-		{
-			pbeg = pv->next;		//меняем указатель на начало очереди
-			delete pv;				//удаляем элемент из очереди
-			return a;				//возвращаем значение удалённого элемента очереди
-		}
-		else
-		{
-			pend = NULL;
-			pbeg = pend;
-			delete pv;
-			return a;
-		}
+		pv = head;
+		head = pv->next;
+		delete pv;
+		return a;
 	}
 }
 
-bool queue::Search(int key)	//Функция поиска элемента из очереди по ключу
-{
+bool queue::Search(int key)	//Функция для поиска элемента по значению
+{ 
 	node *pv = new node();	//выделяем место в ячейке памяти 
-	pv = pbeg;				//присваиваем pv указатель на начало очереди
-	while (pv)				// проходим по очереди пока конец очереди не ноль
+	pv = head;	//присваиваем pv указатель на начало
+	while (pv) //пока указатель на начало не ноль
 	{
-		if (pv->value == key)//если значение совпадает с ключом, возвращаем true, иначе false
+		if (pv->value == key)	//если значение очереди совпало с введённым, возвращаем true
 		{
 			return true;
 		}
-		pv = pv->next;		//меняем указатель, тем самым проходим по очереди
+		pv = pv->next;	//меняем указатель, тем самым проходим по очереди
 	}
 	return false;
 }
 
-void queue::RandPush(int amount, int range)
+void queue::Del()	//Функция удаление элемента, используется в функции Clear() для очистки очереди
+{ 
+	node* pv = new node();	//выделяем место в ячейке памяти 
+	pv = head;				//присваиваем pv указатель на начало
+	head = pv->next;		//меняем указатель на начало на указатель следующего элемента
+	delete pv;				//удаляем первый элемент из очереди
+}
+
+void queue::RandPush(int amount, int range) //функция добавления случайных элементов в очередь
 {
 	int random, i = 0;
-	node* elem = new node();
+	node *pv = new node();
 	srand(time(NULL));
 	while (i != amount)
 	{
@@ -89,50 +87,44 @@ void queue::RandPush(int amount, int range)
 	}
 }
 
-void queue::Clear()	//Функция очистки стека
+void queue::Clear()		//функция очистки очереди
 {
-	node* pv = new node();
-	pv = pbeg;
-	while (pbeg)		// пока указатель на начало очереди не ноль 
+	while (head != NULL) //пока указатель на начало не ноль
 	{
-		pbeg = pv->next;		//меняем указатель начала очереди
-		delete pv;				//удаляем элемент
-		pv = pbeg;
+		Del();
 	}
 }
 
-queue::iterater queue::getBegin()	//Возвращает указатель на начало очереди
-{
-	return pbeg;
+queue::iterater queue::getHead()	//Возвращает указатель на начало очереди
+{ 
+	return head;
 }
 
-queue::iterater queue::getEnd()	//Возвращает указатель на конец очереди
-{
-	return pend;
+queue::iterater queue::getTail() //Возвращает указатель на конец очереди
+{ 
+	return tail;
 }
 
-queue::iterater queue::getNext(iterater a)	//Возвращает указатель на следующий элемент
-{
-	if (queue::IsEmpty())
-	{
+queue::iterater queue::getNext(iterater a) //Возвращает указатель на следующий элемент
+{ 
+	if (queue::IsEmpty()) {
 		return NULL;
 	}
 	return a->next;
 }
 
-int queue::getInf(iterater a)	//Возвращает значение элемента очереди или 0, если стек пуст
+int queue::getInf(iterater a)	//Возвращает значение элемента очереди или 0, если очередь пуста
 {
-	if (queue::IsEmpty())
+	if (queue::IsEmpty()) 
 	{
 		return NULL;
 	}
 	return a->value;
 }
 
-bool queue::IsEmpty()	//проверка на пустоту очереди
-{
-	if (pbeg == NULL)
+bool queue::IsEmpty() //Возращает false, если очередь пуста и true, если очередь заполнена хотя бы одним элементом
+{ 
+	if (head)
 		return false;
-	else
-		return true;
+	else true;
 }
