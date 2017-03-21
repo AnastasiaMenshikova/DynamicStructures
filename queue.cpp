@@ -107,6 +107,11 @@ queue::iterater queue::getBegin()	//Возвращает указатель на
 	return pbeg;
 }
 
+queue::iterater queue::getEnd()	//Возвращает указатель на конец очереди
+{
+	return pend;
+}
+
 queue::iterater queue::getNext(iterater a)	//Возвращает указатель на следующий элемент
 {
 	if (queue::IsEmpty())
