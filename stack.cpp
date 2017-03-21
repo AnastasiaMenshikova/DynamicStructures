@@ -80,7 +80,7 @@ void Stack::RandPush(int amount, int range)
 
 void Stack::Clear()	//Функция очистки стека
 {
-	while (top)		// пока указатель на вершину не ноль 
+	while (top != NULL)		// пока указатель на вершину не ноль 
 	{
 		Del();		//удаляем элементы из стека
 	}
