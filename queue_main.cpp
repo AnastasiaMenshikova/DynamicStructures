@@ -69,51 +69,55 @@ int main()
 		}
 		case 2:
 		{
+			int flag = 0;
 			system("cls");
-			for (;;)
+			error = 1;
+			while (flag != 1)
 			{
 				cout << "Введите количество элементов:" << endl;
 				if ((cin >> amount) && (cin.good()))
 				{
+					flag = 1;
 				}
 				else
 				{
 					if (error == 1)
 					{
 						error = 0;
-						cout << "\n Некорректное значение.Введите число:" << endl;
+						cout << "\n Некорректное значение. Выполните операцию заново." << endl;
 						system("pause");
 					}
 					cin.clear();
 					cin.ignore();
 					system("cls");
-					continue;
 				}
-
-				cout << "Введите максимальное значение:" << endl;
-				if ((amount > 0) && (cin >> range) && (cin.good()))
-				{
-					a.RandPush(amount, range);
-					system("cls");
-					cout << "Элементы были успешно добавлены." << endl;
-					system("pause");
-					system("cls");
-					break;
-					break;
-				}
-				else
-				{
-					if (error == 1)
-					{
-						error = 0;
-						cout << "\n Некорректное значение.Введите число:" << endl;
-						system("pause");
-					}
-					cin.clear();
-					cin.ignore();
-				}
-				system("cls");
 			}
+
+				while (flag != 0)
+				{
+					cout << "Введите максимальное значение:" << endl;
+					if ((amount > 0) && (cin >> range) && (cin.good()))
+					{
+						flag = 0;
+						a.RandPush(amount, range);
+						system("cls");
+						cout << "Элементы были успешно добавлены." << endl;
+						system("pause");
+						system("cls");
+					}
+					else
+					{
+						if (error == 1)
+						{
+							error = 0;
+							cout << "\n Некорректное значение. Выполните операцию заново." << endl;
+							system("pause");
+						}
+						cin.clear();
+						cin.ignore();
+					}
+					system("cls");
+				}
 			system("cls");
 			break;
 		}
