@@ -1,32 +1,42 @@
 #include "stdafx.h"
-#include "stack.h"
+#include "queue.h"
+#include <fstream>
 #include <iostream>
-#include <time.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 
 using namespace std;
 
 int main()
 {
 	int mn, data, range, amount, error; // data - информационное поле
-	Stack a;
-	Stack::iterater iter;
-
+	char name_file1[30];
+	queue a;
+	queue::iterater iter;
+	queue::iterater iter_tail;
+	bool flagempty = false;
+	bool flagvvod = true;
+	ifstream f;
+	ofstream f1;
 	setlocale(LC_ALL, "Russian");
 	do
 	{
 		cout << "Выберите пункт меню:" << endl;
-		cout << "1)Добавить один элемент в стек" << endl;
-		cout << "2)Заполнить стек рандомными значениями" << endl;
-		cout << "3)Удалить элемент из стека" << endl;
-		cout << "4)Очистить стек" << endl;
-		cout << "5)Поиск элемента в стеке по значению" << endl;
-		cout << "6)Просмотр элементов стека" << endl;
+		cout << "1)Добавить один элемент в конец очереди" << endl;
+		cout << "2)Заполнить очередь рандомными значениями" << endl;
+		cout << "3)Удалить элемент из начала очереди" << endl;
+		cout << "4)Очистить очередь" << endl;
+		cout << "5)Поиск элемента в очереди по значению" << endl;
+		cout << "6)Просмотр элементов очереди" << endl;
+		cout << "7)Считавание элементов очереди из файла" << endl;
+		cout << "8)Создать файл и записать туда элементы очереди" << endl;
 		cout << "Нажмите 0 для выхода из программы" << endl;
 		cin >> mn;
 
-		if (mn < 0 || mn>6)
+		if (mn < 0 || mn>9)
 		{
-			cout << "Ошибка! Необходимо ввести число от 1 до 6 или 0 для выхода." << endl;
+			cout << "Ошибка! Необходимо ввести число от 1 до 8 или 0 для выхода." << endl;
 			system("pause");
 			cin.clear();
 			cin.ignore();
@@ -42,7 +52,7 @@ int main()
 			error = 1;
 			for (;;)
 			{
-				cout << "Введите одно значение для добавления в стек:" << endl;
+				cout << "Введите одно значение для добавления в очередь:" << endl;
 				if ((cin >> data) && (cin.good()))
 				{
 					break;
@@ -94,49 +104,48 @@ int main()
 				}
 			}
 
-				while (flag != 0)
+			while (flag != 0)
+			{
+				cout << "Введите максимальное значение:" << endl;
+				if ((amount > 0) && (cin >> range) && (cin.good()))
 				{
-					cout << "Введите максимальное значение:" << endl;
-					if ((amount > 0) && (cin >> range) && (cin.good()))
-					{
-						flag = 0;
-						a.RandPush(amount, range);
-						system("cls");
-						cout << "Элементы были успешно добавлены." << endl;
-						system("pause");
-						system("cls");
-					}
-					else
-					{
-						if (error == 1)
-						{
-							error = 0;
-							cout << "\n Некорректное значение. Выполните операцию заново." << endl;
-							system("pause");
-						}
-						cin.clear();
-						cin.ignore();
-					}
+					flag = 0;
+					a.RandPush(amount, range);
+					system("cls");
+					cout << "Элементы были успешно добавлены." << endl;
+					system("pause");
 					system("cls");
 				}
+				else
+				{
+					if (error == 1)
+					{
+						error = 0;
+						cout << "\n Некорректное значение. Выполните операцию заново." << endl;
+						system("pause");
+					}
+					cin.clear();
+					cin.ignore();
+				}
+				system("cls");
+			}
 			system("cls");
 			break;
 		}
 
 		case 3:
 		{
-
 			system("cls");
 			if (a.IsEmpty())
 			{
 				system("cls");
-				cout << "Невозможно удалить элемент, стек пуст. Добавьте элементы в стек." << endl;
+				cout << "Невозможно удалить элемент, очередь пуста. Добавьте элементы." << endl;
 				system("pause");
 			}
 			else
 			{
-				a.Del();
-				cout << "Элемент был успешно удален." << endl;
+				int p = a.pop();
+				cout << "Элемент " << p << " был успешно удален" << endl;
 				system("pause");
 			}
 			system("cls");
@@ -154,7 +163,7 @@ int main()
 			else
 			{
 				a.Clear();
-				cout << "Стек был успешно очищен." << endl;
+				cout << "Очередь была успешно очищена." << endl;
 				system("pause");
 			}
 			system("cls");
@@ -168,7 +177,7 @@ int main()
 			if (a.IsEmpty())
 			{
 				system("cls");
-				cout << "Стек пуст. Добавьте элементы для поиска." << endl;
+				cout << "Очередь пуста. Добавьте элементы для поиска." << endl;
 				system("pause");
 			}
 			else
@@ -182,7 +191,7 @@ int main()
 					}
 					else
 					{
-						cout << "Элемент " << data << " находится в стеке." << endl;
+						cout << "Элемент " << data << " находится в очереди." << endl;
 					}
 
 				}
@@ -209,15 +218,15 @@ int main()
 		case 6:
 		{
 			system("cls");
-			iter = a.getTop();
+			iter = a.getHead();
 			if (a.IsEmpty())
 			{
-				cout << "В стеке нет элементов." << endl;
+				cout << "В очереди нет элементов." << endl;
 				system("pause");
 			}
 			else
 			{
-				cout << "Элементы стека:" << endl;
+				cout << "Элементы очереди:" << endl;
 				while (iter)
 				{
 					cout << a.getInf(iter) << ' ';
@@ -233,9 +242,87 @@ int main()
 
 		}
 
+		case 7:
+			cout << "Введите имя файла\n";
+			char name_file[30];
+			cin >> name_file;
+			f.open(name_file, ios::in);
+			if (!f.is_open())
+			{
+				cout << "Ошибка!Такого файла не существует, создайте или введите другое название" << endl;
+				system("pause");
+				cin.clear();
+				cin.ignore();
+				system("cls");
+				break;
+			}
+			while (!f.eof())
+			{
+				f >> data;
+				a.push(data);
+			}
+			f.close();
+			cout << "Элементы были считаны из файла" << endl;
+			system("pause");
+			cin.clear();
+			cin.ignore();
+			system("cls");
+			break;
+		
+		case 8:
+			flagempty = a.IsEmpty();
+			if (flagempty)
+			{
+				cout << "Очередь пуста, невозможно создать файл" << endl << endl;
+				system("pause");
+				cin.clear();
+				cin.ignore();
+				system("cls");
+				flagempty = false;
+				break;
+			}
 
+			cout << "Введите имя файла\n";
+			cin >> name_file1;
+			f1.open(name_file1, ios::out | ios::trunc);
+			if (!f1.is_open())
+			{
+				cout << "Ошибка при открытии файла" << endl;
+				system("pause");
+				cin.clear();
+				cin.ignore();
+				system("cls");
+				break;
+			}
+			iter = a.getHead();
+			iter_tail = a.getTail();
+			while (iter)
+			{
+				data = a.getInf(iter);
+				f1 << data;
+				if (!(iter == iter_tail))
+					f1 << "\n";
+				iter = a.getNext(iter);
+			}
+			cout << "Элементы были добавлены в файл " << name_file1 << endl;
+			system("pause");
+			cin.clear();
+			cin.ignore();
+			system("cls");
+			f1.close();
+			break;
+
+		case 9:
+			cout << "Введите имя файла\n";
+			cin >> name_file;
+			gets_s(name_file);
+			if (remove(name_file)) {
+				printf("Error removing file");
+			}
+			
 		}
 	} while (mn != 0);
+
 
 	system("pause");
 	return 0;
