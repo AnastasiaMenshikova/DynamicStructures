@@ -254,7 +254,7 @@ int main()
 				system("cls");
 				break;
 			}
-			while (!f.eof()){
+			while (!f.eof()) {
 				f >> data;
 				a.push(data);
 			}
@@ -265,7 +265,7 @@ int main()
 			cin.ignore();
 			system("cls");
 			break;
-		
+
 		case 8:
 			flagempty = a.IsEmpty();
 			if (flagempty)
@@ -295,7 +295,7 @@ int main()
 
 			iter = a.getHead();
 			iter_tail = a.getTail();
-			while (iter){
+			while (iter) {
 				data = a.getInf(iter);
 				f1 << data;
 				if (!(iter == iter_tail))
@@ -304,6 +304,9 @@ int main()
 			}
 			cout << "Элементы были добавлены в файл " << name_file1 << endl;
 			system("pause");
+			cin.clear();
+			cin.ignore();
+			system("cls");
 			f1.close();
 			break;
 		default: break;
