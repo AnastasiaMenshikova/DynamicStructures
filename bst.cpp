@@ -10,8 +10,6 @@ bst::bst()
 	value = 0;
 }
 
-
-
 bst::bst(int val)
 {
 	leftSubtree = NULL;
@@ -21,12 +19,7 @@ bst::bst(int val)
 
 
 
-bst::~bst()
-{
-
-}
-
-
+bst::~bst(){}
 
 
 /*
@@ -36,21 +29,21 @@ OUT: ---
 */
 void bst::addNode(bst *root, int key)
 {
-	if (key < root->value){
+	if (key < root->value) {
 
-		if (root->leftSubtree){
+		if (root->leftSubtree) {
 			addNode(root->leftSubtree, key);
 		}
-		else{
+		else {
 			root->leftSubtree = new bst(key);
 		}
 	}
 
-	if (key >= root->value){
-		if (root->rightSubtree){
+	if (key >= root->value) {
+		if (root->rightSubtree) {
 			addNode(root->rightSubtree, key);
 		}
-		else{
+		else {
 			root->rightSubtree = new bst(key);
 		}
 	}
@@ -63,7 +56,7 @@ IN: Значение,которое станет новым элементом �
 OUT: ---
 */
 
-void bst::addNodeWrapper(int key){
+void bst::addNodeWrapper(int key) {
 	addNode(this, key);
 }
 
@@ -92,35 +85,13 @@ bst* bst::find(bst *root, int key)
 	}
 
 }
-/*
-BRIEF: Функция поиска узла или листа в дереве по ключу. Использует рекурсию,для перемещения по дереву в поисках нужной позиции.
-IN: Число(Ключ) по которому идёт поиск, указатель на корень дерева,который будет меняться в процессе рекурсии.
-OUT: Указатель на узел,который правой или левой ветвью ссылается на найденный узел по ключу.
-*/
-bst* bst::find1(bst *root, int key)
-{
-
-	if (!root) return NULL;
-	if (key == root->leftSubtree->value || key == root->rightSubtree->value)
-		//return *root;
-		return root;
-	if (key < root->value)
-	{
-		return (find(root->leftSubtree, key));
-	}
-	else
-	{
-		return find(root->rightSubtree, key);
-	}
-
-}
 
 /*
 BRIEF: Функция вызова функции поиска узла или листа в дереве по ключу,которая добавит адрес корня дерева,в виде this : переменной ссылающийся самой на себя. Сделанно это для упрощения работы с программой.
 IN: Число(Ключ) по которому идёт поиск. указатель на корень дерева,который будет меняться в процессе рекурсии.
 OUT: ---
 */
-void bst::findWrapper(int key){
+void bst::findWrapper(int key) {
 	find(this, key);
 }
 
@@ -153,7 +124,7 @@ BRIEF: Функция вызова функции удаления узла ил
 IN: Число(Ключ) по которому произойдет удаление.
 OUT: ---
 */
-void bst::delNodeWrapper(int key){
+void bst::delNodeWrapper(int key) {
 	delNode(this, key);
 }
 
